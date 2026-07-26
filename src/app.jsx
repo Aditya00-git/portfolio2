@@ -3,7 +3,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { useGSAP } from "@gsap/react";
 import { useRef, useState } from "react";
-import isMobile from "./utils/isMobile";
+import isMobile from "./utils/IsMobile";
 
 import Preloader      from "./components/Preloader";
 import RibbonCursor   from "./components/RibbonCursor";

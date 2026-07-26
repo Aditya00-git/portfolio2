@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import MagneticBtn from "../components/MagneticBtn";
 import GradientOrb from "../components/GradientOrb";
 // import NoiseOverlay from "../components/NoiseOverlay";
-import isMobile from "../utils/isMobile";
+import isMobile from "../utils/IsMobile";
 
 gsap.registerPlugin(ScrollTrigger);
 

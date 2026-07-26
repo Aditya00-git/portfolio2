@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import isMobile from "../utils/isMobile";
+import isMobile from "../utils/IsMobile";
 const GradientOrb = ({ x = "20%", y = "30%", size = 600, color = "#CAFF00", opacity = 0.04 }) => {
   const orbRef = useRef(null);
   const mobile = isMobile();

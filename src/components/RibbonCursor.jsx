@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Renderer, Transform, Vec3, Color, Polyline } from 'ogl';
-import isMobile from '../utils/isMobile';
+import isMobile from '../utils/IsMobile';
 
 const RibbonCursor = () => {
   const containerRef = useRef(null);

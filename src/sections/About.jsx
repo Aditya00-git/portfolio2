@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitLines from "../components/SplitLines";
 import GradientOrb from "../components/GradientOrb";
 import { skills } from "../constants";
-import isMobile from "../utils/isMobile";
+import isMobile from "../utils/IsMobile";
 
 gsap.registerPlugin(ScrollTrigger);
 

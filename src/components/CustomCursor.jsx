@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import isMobile from "../utils/isMobile";
+import isMobile from "../utils/IsMobile";
 
 const CustomCursor = () => {
   const dotRef   = useRef(null);
