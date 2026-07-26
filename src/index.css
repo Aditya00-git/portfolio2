@@ -1,0 +1,376 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── DARK THEME (default) ─────────────────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  --lime:       #CAFF00;
+  --charcoal:   #0D0D0D;
+  --offwhite:   #F0EDE6;
+  --dim:        #1A1A1A;
+  --muted:      #666;
+  --surface:    #111111;
+  --card-bg:    #1A1A1A;
+  --nav-bg:     #0D0D0D;
+  --page-bg:    #0D0D0D;
+  --border:     rgba(240, 237, 230, 0.1);
+  --border-sm:  rgba(240, 237, 230, 0.06);
+  --border-xs:  rgba(240, 237, 230, 0.07);
+  --text-dim:   rgba(240, 237, 230, 0.42);
+  --text-bio:   rgba(240, 237, 230, 0.58);
+  --grid-line:  rgba(240, 237, 230, 0.035);
+}
+
+/* ─── LIGHT THEME ───────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --lime:       #7DB200;
+  --charcoal:   #F5F2EB;
+  --offwhite:   #111111;
+  --dim:        #ECEAE3;
+  --muted:      #888;
+  --surface:    #EDEAE2;
+  --card-bg:    #E5E2DA;
+  --nav-bg:     #EDEAE2;
+  --page-bg:    #F5F2EB;
+  --border:     rgba(17, 17, 17, 0.12);
+  --border-sm:  rgba(17, 17, 17, 0.07);
+  --border-xs:  rgba(17, 17, 17, 0.08);
+  --text-dim:   rgba(17, 17, 17, 0.42);
+  --text-bio:   rgba(17, 17, 17, 0.58);
+  --grid-line:  rgba(17, 17, 17, 0.05);
+}
+
+/* ─── THEME TRANSITION ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0; padding: 0; box-sizing: border-box;
+  transition:
+    background-color 0.4s ease,
+    border-color     0.4s ease,
+    color            0.35s ease,
+    box-shadow       0.35s ease;
+}
+
+html { overflow-x: hidden; scroll-behavior: auto; }
+
+@media (hover: hover) and (pointer: fine) {
+  *, *::before, *::after { cursor: none !important; }
+}
+
+body {
+  background: var(--charcoal);
+  color: var(--offwhite);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+::selection { background: var(--lime); color: var(--charcoal); }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--charcoal); }
+::-webkit-scrollbar-thumb { background: var(--lime); }
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ─── TYPOGRAPHY ────────────────────────────────────────────────────── */
+/* Big banner text — extracted from shan-portfolio .banner-three-title,
+   same breakpoint scale (397px -> 78px), applied to every heading */
+.display-xl,
+.display-lg,
+.display-md,
+.section-title {
+  font-family: 'Phudu', sans-serif;
+  font-size: 397px;
+  line-height: 0.83;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+@media screen and (max-width: 1799px) {
+  .display-xl, .display-lg, .display-md, .section-title { font-size: 370px; }
+}
+@media screen and (max-width: 1699px) {
+  .display-xl, .display-lg, .display-md, .section-title { font-size: 350px; }
+}
+@media screen and (max-width: 1499px) {
+  .display-xl, .display-lg, .display-md, .section-title { font-size: 307px; }
+}
+@media screen and (max-width: 1399px) {
+  .display-xl, .display-lg, .display-md, .section-title { font-size: 260px; }
+}
+@media screen and (max-width: 1199px) {
+  .display-xl, .display-lg, .display-md, .section-title { font-size: 216px; }
+}
+@media screen and (max-width: 991px) {
+  .display-xl, .display-lg, .display-md, .section-title { font-size: 166px; }
+}
+@media screen and (max-width: 767px) {
+  .display-xl, .display-lg, .display-md, .section-title { font-size: 123px; }
+}
+@media screen and (max-width: 575px) {
+  .display-xl, .display-lg, .display-md, .section-title { font-size: 88px; }
+}
+@media screen and (max-width: 424px) {
+  .display-xl, .display-lg, .display-md, .section-title { font-size: 78px; }
+}
+.section-title {
+  text-transform: uppercase;
+  color: var(--offwhite);
+}
+.label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+.body-lg {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(16px, 2vw, 22px);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* ─── NOISE OVERLAY ─────────────────────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 99990;
+}
+
+/* ─── UTILITIES ─────────────────────────────────────────────────────── */
+.lime-glow     { text-shadow: 0 0 40px rgba(202,255,0,0.4); }
+.lime-box-glow { box-shadow:  0 0 40px rgba(202,255,0,0.15); }
+.rule { width: 100%; height: 1px; background: var(--border); }
+.index-num {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px; color: var(--muted);
+  letter-spacing: 0.15em; font-weight: 300;
+}
+.text-lime     { color: var(--lime); }
+.text-offwhite { color: var(--offwhite); }
+.text-muted    { color: var(--muted); }
+.marquee-track { white-space: nowrap; }
+
+/* Big fixed background text — extracted from shan-portfolio
+   .portfolio-three-shape-title ("works"), pinned behind the portfolio
+   grid while it scrolls. Same exact breakpoint scale, 642px -> 130px. */
+.fixed-bg-text {
+  font-family: 'Phudu', sans-serif;
+  font-size: 642px;
+  line-height: 0.85;
+  font-weight: 600;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--offwhite);
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+@media screen and (max-width: 1799px) {
+  .fixed-bg-text { font-size: 580px; }
+}
+@media screen and (max-width: 1699px) {
+  .fixed-bg-text { font-size: 555px; }
+}
+@media screen and (max-width: 1499px) {
+  .fixed-bg-text { font-size: 480px; }
+}
+@media screen and (max-width: 1399px) {
+  .fixed-bg-text { font-size: 415px; }
+}
+@media screen and (max-width: 1199px) {
+  .fixed-bg-text { font-size: 340px; }
+}
+@media screen and (max-width: 991px) {
+  .fixed-bg-text { font-size: 265px; }
+}
+@media screen and (max-width: 767px) {
+  .fixed-bg-text { font-size: 200px; }
+}
+@media screen and (max-width: 575px) {
+  .fixed-bg-text { font-size: 146px; }
+}
+@media screen and (max-width: 424px) {
+  .fixed-bg-text { font-size: 130px; }
+}
+
+#page-cover {
+  position: fixed; inset: 0;
+  background: var(--charcoal);
+  z-index: 999999; transform-origin: bottom;
+}
+
+/* ─── LIGHT THEME: SECTION BACKGROUNDS ──────────────────────────────── */
+[data-theme="light"] #about       { background: var(--surface) !important; }
+[data-theme="light"] #projects    { background: var(--charcoal) !important; }
+[data-theme="light"] #experience  { background: var(--surface) !important; }
+[data-theme="light"] #contact     { background: var(--charcoal) !important; }
+
+/* Nav panel overlay */
+[data-theme="light"] .fixed.inset-0 { background: var(--nav-bg) !important; }
+
+/* Hero: outline last name stroke color */
+[data-theme="light"] h1[style*="WebkitTextStroke"] {
+  -webkit-text-stroke-color: rgba(17, 17, 17, 0.2) !important;
+}
+
+/* Skill pills */
+[data-theme="light"] .skill-pill {
+  background: var(--card-bg) !important;
+  border-color: var(--border-xs) !important;
+  color: var(--offwhite) !important;
+}
+
+/* Contact / form inputs */
+[data-theme="light"] input,
+[data-theme="light"] textarea {
+  color: var(--offwhite) !important;
+}
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: var(--muted) !important;
+}
+
+/* Projects hover overlay row (intentionally stays warm dark) */
+[data-theme="light"] .group > .absolute[style*="background: #161616"] {
+  background: #2a2a2a !important;
+}
+
+/* Preview card in Projects */
+[data-theme="light"] .fixed.top-0.left-0.z-50.pointer-events-none {
+  background: var(--card-bg) !important;
+  border-color: var(--border) !important;
+}
+
+/* ── Certifications — oval "Shan-style" cards ─────────────────────────── */
+.cert-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  width: 100%;
+  max-width: 1500px;
+  border: 2px solid var(--border-xs);
+  border-radius: 200px;
+  padding: 24px 24px 24px 56px;
+  transition: border-color 0.4s ease, background 0.4s ease, transform 0.3s ease;
+}
+.cert-card:hover {
+  border-color: var(--lime);
+  transform: translateY(-2px);
+  background: rgba(202, 255, 0, 0.02);
+}
+
+.cert-card-left {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  min-width: 0;
+  flex: 1;
+}
+
+.cert-num {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  transition: color 0.3s ease;
+  flex-shrink: 0;
+}
+.cert-num svg { transition: transform 0.35s ease; }
+.cert-card:hover .cert-num { color: var(--lime); }
+.cert-card:hover .cert-num svg { transform: translateX(6px); }
+
+.cert-big-title {
+  font-family: 'Phudu', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3.4vw, 3rem);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--offwhite);
+  margin-bottom: 16px;
+  transition: color 0.4s ease;
+}
+.cert-card:hover .cert-big-title { color: var(--lime); }
+
+.cert-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.cert-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border-xs);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.cert-tag::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.cert-thumb {
+  flex-shrink: 0;
+  width: 260px;
+  height: 170px;
+  border-radius: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .cert-card {
+    flex-direction: column;
+    text-align: center;
+    border-radius: 40px;
+    padding: 32px;
+    gap: 24px;
+  }
+  .cert-card-left { flex-direction: column; gap: 16px; }
+  .cert-tags { justify-content: center; }
+  .cert-thumb { width: 100%; height: 140px; }
+}
+
+/* ── Big ticker marquee text — same treatment as Shan's .marquee-two-title,
+   alternating solid fill / stroke-outline, same Phudu heading font ────── */
+.marquee-big-title {
+  font-family: 'Phudu', sans-serif;
+  font-weight: 600;
+  font-size: clamp(56px, 11vw, 165px);
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--offwhite);
+  white-space: nowrap;
+}
+.marquee-big-title.text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--offwhite);
+}
+.marquee-dash {
+  color: var(--offwhite);
+  opacity: 0.6;
+  margin-left: 10px;
+}
+
+[data-theme="light"] .cert-card:hover {
+  background: rgba(125, 178, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  body { cursor: auto; }
+}

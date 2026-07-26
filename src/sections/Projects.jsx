@@ -1,0 +1,251 @@
+import { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { projects } from "../constants";
+import GradientOrb from "../components/GradientOrb";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const Projects = () => {
+  const sectionRef   = useRef(null);
+  const titleRef     = useRef(null);
+  const panelRef      = useRef(null);
+  const rowRefs      = useRef([]);
+  const overlayRefs  = useRef([]);
+  const previewRef   = useRef(null);
+  const numRefs      = useRef([]);
+  const moveX        = useRef(null);
+  const moveY        = useRef(null);
+  const [hovered, setHovered]   = useState(null);
+
+  useGSAP(() => {
+    gsap.to(titleRef.current, {
+      yPercent: -30,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top bottom",
+        end: "top top",
+        scrub: 1.5,
+      },
+    });
+
+    // Giant "WORKS" title pinned in the background while the list scrolls
+    // past it — same mechanic as shan-portfolio's .portfolio-three-shape pin.
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top center-=200",
+      end: "bottom bottom-=200",
+      pin: panelRef.current,
+      pinSpacing: false,
+      scrub: 1,
+    });
+
+    rowRefs.current.forEach((el, i) => {
+      if (!el) return;
+      gsap.fromTo(el,
+        { x: -60, opacity: 0 },
+        {
+          x: 0, opacity: 1, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 94%", toggleActions: "play none none none" },
+        }
+      );
+    });
+
+    numRefs.current.forEach((el, i) => {
+      if (!el) return;
+      gsap.fromTo(el,
+        { opacity: 0, scale: 2 },
+        {
+          opacity: 1, scale: 1, duration: 0.7, ease: "expo.out",
+          scrollTrigger: { trigger: el, start: "top 94%", toggleActions: "play none none none" },
+        }
+      );
+    });
+
+    moveX.current = gsap.quickTo(previewRef.current, "x", { duration: 1.1, ease: "power3.out" });
+    moveY.current = gsap.quickTo(previewRef.current, "y", { duration: 1.3, ease: "power3.out" });
+  });
+
+  const onEnter = (i) => {
+    if (window.innerWidth < 768) return;
+    setHovered(i);
+    gsap.fromTo(overlayRefs.current[i],
+      { scaleY: 0, transformOrigin: "bottom" },
+      { scaleY: 1, duration: 0.28, ease: "power2.out" }
+    );
+    gsap.to(previewRef.current, { autoAlpha: 1, scale: 1, duration: 0.35, ease: "power2.out" });
+  };
+
+  const onLeave = (i) => {
+    if (window.innerWidth < 768) return;
+    setHovered(null);
+    gsap.to(overlayRefs.current[i], { scaleY: 0, transformOrigin: "bottom", duration: 0.22, ease: "power2.in" });
+    gsap.to(previewRef.current, { autoAlpha: 0, scale: 0.92, duration: 0.25 });
+  };
+
+  const onMove = (e) => {
+    if (!moveX.current || window.innerWidth < 768) return;
+    moveX.current(e.clientX + 24);
+    moveY.current(e.clientY - 60);
+  };
+
+  return (
+    <section
+      id="projects"
+      ref={sectionRef}
+      className="py-24 px-8 md:px-16"
+      style={{ background: "var(--charcoal)", overflow: "hidden", position: "relative" }}
+    >
+      <GradientOrb x="85%" y="40%" size={500} color="#CAFF00" opacity={0.03} />
+
+      {/* Pinned background watermark — stays put while the list scrolls over it */}
+      <h3
+        ref={panelRef}
+        aria-hidden="true"
+        className="pointer-events-none select-none uppercase"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          textAlign: "center",
+          fontFamily: "'Bebas Neue', sans-serif",
+          fontSize: "clamp(90px, 22vw, 420px)",
+          lineHeight: 1,
+          color: "var(--offwhite)",
+          opacity: 0.035,
+          zIndex: 0,
+          margin: 0,
+        }}
+      >
+        PROJECTS
+      </h3>
+
+      <div className="flex items-center gap-4 mb-4" style={{ position: "relative", zIndex: 1 }}>
+        <span className="index-num">03</span>
+        <div className="rule flex-1" />
+        <span className="label text-muted">Selected Work</span>
+      </div>
+
+      <div style={{ overflow: "hidden", position: "relative", zIndex: 1 }}>
+        <h2
+          className="display-lg text-offwhite uppercase mb-16"
+          style={{ display: "block" }}
+        >
+          Projects
+        </h2>
+      </div>
+
+      <div className="relative" style={{ zIndex: 1 }} onMouseMove={onMove}>
+        {projects.map((p, i) => (
+          <a
+            key={p.id}
+            href={p.href}
+            target="_blank"
+            rel="noreferrer"
+            ref={el => (rowRefs.current[i] = el)}
+            className="group relative flex items-center justify-between py-6 border-t"
+            style={{ borderColor: "var(--border-sm)", cursor: "none" }}
+            onMouseEnter={() => onEnter(i)}
+            onMouseLeave={() => onLeave(i)}
+            data-cursor
+          >
+            <div
+              ref={el => (overlayRefs.current[i] = el)}
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: "#161616", transform: "scaleY(0)", transformOrigin: "bottom", zIndex: 0 }}
+            />
+
+            <div className="relative z-10 flex items-center gap-6 flex-1 min-w-0">
+              <span
+                ref={el => (numRefs.current[i] = el)}
+                className="index-num shrink-0 transition-colors duration-300 group-hover:text-lime"
+              >{p.id}</span>
+              <div className="min-w-0">
+                <h3
+                  className="uppercase text-offwhite transition-colors duration-300 group-hover:text-lime truncate"
+                  style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(28px,4.5vw,64px)", lineHeight: 1 }}
+                >
+                  {p.name}
+                </h3>
+                <p className="label text-muted mt-1 hidden md:block">{p.type}</p>
+              </div>
+            </div>
+
+            <div className="relative z-10 flex items-center gap-6 shrink-0">
+              <div className="hidden md:flex flex-wrap gap-2 justify-end max-w-xs">
+                {p.tags.slice(0, 3).map((t, j) => (
+                  <span
+                    key={j}
+                    className="label text-muted px-3 py-1 rounded-full"
+                    style={{ background: "var(--border-sm)", border: "1px solid var(--border-xs)" }}
+                  >{t}</span>
+                ))}
+              </div>
+              <span className="label text-muted">{p.year}</span>
+              <span
+                className="text-xl transition-all duration-300"
+                style={{ color: "var(--text-dim)" }}
+                onMouseEnter={e => { e.target.style.color = "#CAFF00"; e.target.style.transform = "translate(3px,-3px)"; }}
+                onMouseLeave={e => { e.target.style.color = "var(--text-dim)"; e.target.style.transform = "translate(0,0)"; }}
+              >↗</span>
+            </div>
+          </a>
+        ))}
+
+        <div className="rule" />
+
+        <div
+          ref={previewRef}
+          className="fixed top-0 left-0 z-50 pointer-events-none hidden md:flex flex-col justify-end rounded-2xl overflow-hidden"
+          style={{
+            width: 380,
+            height: 240,
+            opacity: 0,
+            scale: 0.92,
+            background: "var(--card-bg)",
+            border: "1px solid rgba(202,255,0,0.12)",
+            padding: 0,
+          }}
+        >
+          {hovered !== null && (
+            <div
+              className="w-full h-full flex flex-col justify-end p-7"
+              style={{ background: "linear-gradient(to top, var(--charcoal) 35%, color-mix(in srgb, var(--charcoal) 40%, transparent))" }}
+            >
+              <p className="label text-lime mb-2">{projects[hovered].type}</p>
+              <h4 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 30, color: "var(--offwhite)", textTransform: "uppercase", lineHeight: 1 }}>
+                {projects[hovered].full}
+              </h4>
+              <p className="mt-2" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.5 }}>
+                {projects[hovered].description.slice(0, 90)}…
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-14 flex items-center gap-6" style={{ position: "relative", zIndex: 1 }}>
+        <a
+          href="https://github.com/Aditya00-git"
+          target="_blank" rel="noreferrer"
+          className="group inline-flex items-center gap-4"
+          data-cursor
+        >
+          <span
+            className="label transition-all duration-300"
+            style={{ color: "var(--text-dim)" }}
+            onMouseEnter={e => e.target.style.color = "#CAFF00"}
+            onMouseLeave={e => e.target.style.color = "var(--text-dim)"}
+          >
+            View all on GitHub ↗
+          </span>
+        </a>
+      </div>
+    </section>
+  );
+};
+
+export default Projects;
