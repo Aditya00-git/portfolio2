@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
-const ThemeToggle = () => {
+const Themetoggle = () => {
   const [isDark, setIsDark] = useState(true);
   const trackRef = useRef(null);
   const thumbRef = useRef(null);
@@ -119,4 +119,4 @@ const ThemeToggle = () => {
   );
 };
 
-export default ThemeToggle;
+export default Themetoggle;

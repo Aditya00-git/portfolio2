@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import MagneticBtn from "../components/MagneticBtn";
 import { socials } from "../constants";
-import ThemeToggle from "../components/ThemeToggle";
+import Themetoggle from "../components/Themetoggle";
 
 const Navbar = () => {
   const panelRef    = useRef(null);
@@ -177,7 +177,7 @@ const Navbar = () => {
         >
           Aditya.dev
         </div>
-        <ThemeToggle />
+        <Themetoggle />
 
         <MagneticBtn strength={0.45}>
           <button
