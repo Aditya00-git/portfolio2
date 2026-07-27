@@ -95,10 +95,10 @@ export const skills = [
 ];
 
 export const socials = [
-  { name: "GitHub", href: "https://github.com/Aditya00-git" },
-  { name: "LinkedIn", href: "https://tinyurl.com/35u8nepx" },
-  { name: "Twitter / X", href: "https://x.com/AdityaSeswani" },
-  { name: "Instagram", href: "https://tinyurl.com/hy78vev2" },
+  { name: "GitHub", href: "https://github.com/Aditya00-git", icon: "lucide:github" },
+  { name: "LinkedIn", href: "https://tinyurl.com/35u8nepx", icon: "lucide:linkedin" },
+  { name: "Twitter / X", href: "https://x.com/AdityaSeswani", icon: "lucide:twitter" },
+  { name: "Instagram", href: "https://tinyurl.com/hy78vev2", icon: "lucide:instagram" },
 ];
 
 export const marqueeTech = [

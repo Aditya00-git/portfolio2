@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { Icon } from "@iconify/react";
 import MagneticBtn from "../components/MagneticBtn";
 import { socials } from "../constants";
 import Themetoggle from "../components/Themetoggle";
@@ -165,43 +166,84 @@ const Navbar = () => {
         </div>
       </div>
       <header
-        className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between px-8 md:px-16 py-5 transition-transform duration-500"
+        className="fixed top-0 left-0 right-0 z-[60] grid grid-cols-[1fr_auto_1fr] items-center px-8 md:px-16 py-5 transition-transform duration-500"
         style={{
           transform: visible ? "translateY(0)" : "translateY(-110%)",
-          background: open ? "transparent" : "transparent",
+          background: "transparent",
         }}
       >
+        {/* Logo — left */}
         <div
-          className="label transition-colors duration-300"
-          style={{ color: open ? "var(--text-bio)" : "var(--text-bio)" }}
+          className="label transition-colors duration-300 justify-self-start"
+          style={{ color: "var(--text-bio)" }}
         >
           Aditya.dev
         </div>
-        <Themetoggle />
 
-        <MagneticBtn strength={0.45}>
-          <button
-            onClick={toggle}
-            className="w-11 h-11 rounded-full flex flex-col items-center justify-center gap-[5px] border transition-all duration-300"
-            style={{
-              background: open ? "#CAFF00" : "var(--card-bg)",
-              borderColor: open ? "#CAFF00" : "var(--border)",
-              cursor: "none",
-            }}
+        {/* Socials — dead center, Shan-style icon row */}
+        <div className="hidden lg:flex items-center gap-3 justify-self-center">
+          {socials.map((s, i) => (
+            <a
+              key={i}
+              href={s.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={s.name}
+              className="nav-social-btn w-10 h-10 rounded-full border flex items-center justify-center"
+              style={{ borderColor: "var(--border)", background: "var(--card-bg)" }}
+              data-cursor
+            >
+              <Icon icon={s.icon} className="size-4" style={{ color: "var(--offwhite)" }} />
+            </a>
+          ))}
+        </div>
+
+        {/* Actions — right */}
+        <div className="flex items-center gap-3 justify-self-end">
+          <Themetoggle />
+
+          {/* Download CV — Shan's circle-reveal hover, adapted to our accent */}
+          <a
+            href="/resume.pdf"
+            download
+            className="cv-btn hidden md:inline-flex items-center border rounded-full px-6 py-2.5"
+            style={{ borderColor: "var(--border)" }}
             data-cursor
           >
+            <span className="cv-btn-dot" />
             <span
-              ref={iconTopRef}
-              className="block w-5 h-px rounded-full origin-center"
-              style={{ background: open ? "var(--charcoal)" : "var(--offwhite)", transition: "background 0.3s" }}
-            />
-            <span
-              ref={iconBotRef}
-              className="block w-5 h-px rounded-full origin-center"
-              style={{ background: open ? "var(--charcoal)" : "var(--offwhite)", transition: "background 0.3s" }}
-            />
-          </button>
-        </MagneticBtn>
+              className="cv-btn-label label"
+              style={{ color: "var(--offwhite)" }}
+            >
+              Download CV
+            </span>
+          </a>
+
+          <MagneticBtn strength={0.45}>
+            <button
+              onClick={toggle}
+              data-open={open}
+              className="menu-toggle-btn w-11 h-11 rounded-full flex flex-col items-center justify-center gap-[5px] border transition-all duration-300"
+              style={{
+                background: open ? "var(--lime)" : "var(--card-bg)",
+                borderColor: open ? "var(--lime)" : "var(--border)",
+                cursor: "none",
+              }}
+              data-cursor
+            >
+              <span
+                ref={iconTopRef}
+                className="block w-5 h-px rounded-full origin-center"
+                style={{ background: open ? "var(--charcoal)" : "var(--offwhite)", transition: "background 0.3s" }}
+              />
+              <span
+                ref={iconBotRef}
+                className="block w-5 h-px rounded-full origin-center"
+                style={{ background: open ? "var(--charcoal)" : "var(--offwhite)", transition: "background 0.3s" }}
+              />
+            </button>
+          </MagneticBtn>
+        </div>
       </header>
     </>
   );

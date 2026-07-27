@@ -2,44 +2,34 @@ import { useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import MagneticBtn from "../components/MagneticBtn";
 import GradientOrb from "../components/GradientOrb";
 // import NoiseOverlay from "../components/NoiseOverlay";
-import isMobile from "../utils/IsMobile";
+import isMobile from "../utils/isMobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ROLES = ["FULL STACK DEVELOPER", "AI SYSTEMS BUILDER", "BACKEND ENGINEER", "OPEN SOURCE DEV"];
+const ROLES = ["Web Development", "UI/UX Design", "Search Engine Optimization", "Full Stack Development","System Design"];
 
 const Hero = () => {
   const sectionRef = useRef(null);
   const nameRef    = useRef(null);
   const lastRef    = useRef(null);
-  const roleRef    = useRef(null);
   const descRef    = useRef(null);
   const lineRef    = useRef(null);
   const scrollRef  = useRef(null);
   const gridRef    = useRef(null);
   const badgeRef   = useRef(null);
   const statusRef  = useRef(null);
-  const socialsRef = useRef(null);
-  useEffect(() => {
-    let ri = 0, ci = 0, del = false;
-    const type = () => {
-      if (!roleRef.current) return;
-      const cur = ROLES[ri];
-      if (!del) {
-        roleRef.current.textContent = cur.slice(0, ++ci);
-        if (ci >= cur.length) { del = true; setTimeout(type, 1800); return; }
-      } else {
-        roleRef.current.textContent = cur.slice(0, --ci);
-        if (ci <= 0) { del = false; ri = (ri + 1) % ROLES.length; }
-      }
-      setTimeout(type, del ? 28 : 52);
-    };
-    const t = setTimeout(type, 1400);
-    return () => clearTimeout(t);
-  }, []);
+  const cardRef    = useRef(null);
+  const statsWrapRef = useRef(null);
+  const statsRef     = useRef([]);
+  const counterRefs  = useRef([]);
+
+  const STATS = [
+    { end: 98, suffix: "%", label: "Client Satisfaction Rate" },
+    { end: 10, suffix: "+", label: "Projects Launched", highlight: true },
+    { end: 5, suffix: "+", label: "Global Clients and Growing", avatars: true },
+  ];
 
   useGSAP(() => {
     const tl = gsap.timeline({ delay: 0.5 });
@@ -62,14 +52,6 @@ const Hero = () => {
     tl.fromTo(lineRef.current,
       { scaleX: 0, transformOrigin: "left" },
       { scaleX: 1, duration: 0.9, ease: "expo.out" }, "-=0.6"
-    );
-    tl.fromTo(descRef.current,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" }, "-=0.5"
-    );
-    tl.fromTo(socialsRef.current,
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" }, "-=0.6"
     );
     tl.fromTo(scrollRef.current,
       { opacity: 0 }, { opacity: 1, duration: 0.6 }, "-=0.3"
@@ -96,6 +78,58 @@ const Hero = () => {
     gsap.to(scrollRef.current, {
       opacity: 0, ease: "none",
       scrollTrigger: { trigger: sectionRef.current, start: "top top", end: "25% top", scrub: true },
+    });
+
+    // Card + role list fade-up on scroll (mirrors Shan's data-aos="fade-up")
+    if (cardRef.current) {
+      gsap.fromTo(
+        cardRef.current,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1, y: 0, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: cardRef.current, start: "top 88%", toggleActions: "play none none none" },
+        }
+      );
+      gsap.fromTo(
+        cardRef.current.querySelectorAll(".role-item"),
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: "power2.out", delay: 0.15,
+          scrollTrigger: { trigger: cardRef.current, start: "top 88%", toggleActions: "play none none none" },
+        }
+      );
+    }
+
+    // Stats stack fade-up on scroll (mirrors Shan's data-aos="fade-up" + purecounter)
+    statsRef.current.forEach((el, i) => {
+      if (!el) return;
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: i * 0.12,
+          scrollTrigger: { trigger: statsWrapRef.current, start: "top 88%", toggleActions: "play none none none" },
+        }
+      );
+
+      const target = STATS[i].end;
+      const obj = { val: 0 };
+      gsap.fromTo(
+        obj,
+        { val: 0 },
+        {
+          val: target,
+          duration: 1.8,
+          ease: "power2.out",
+          delay: i * 0.12 + 0.1,
+          scrollTrigger: { trigger: statsWrapRef.current, start: "top 88%", toggleActions: "play none none none" },
+          onUpdate: () => {
+            if (counterRefs.current[i]) {
+              counterRefs.current[i].textContent = Math.round(obj.val) + STATS[i].suffix;
+            }
+          },
+        }
+      );
     });
   });
 
@@ -144,10 +178,7 @@ const Hero = () => {
 
       <div className="relative select-none mb-0" style={{ zIndex: 1 }}>
         <div style={{ overflow: "hidden" }} ref={nameRef}>
-          <h1
-            className="display-xl text-offwhite leading-none"
-            style={{ display: "block" }}
-          >
+          <h1 className="display-xl text-offwhite leading-none" style={{ display: "block" }}>
             ADITYA
           </h1>
         </div>
@@ -164,56 +195,121 @@ const Hero = () => {
       <div ref={lineRef} className="rule my-8" style={{ zIndex: 1 }} />
 
       <div ref={descRef} className="flex flex-col md:flex-row md:items-end justify-between gap-8" style={{ zIndex: 1 }}>
-        <div>
-          <p className="label text-muted mb-2">Role</p>
-          <p className="uppercase tracking-wider"
-            style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(20px,2.8vw,34px)", color: "#CAFF00", minHeight: "1.4em" }}>
-            <span ref={roleRef} />
-            <span style={{ animation: "blink 1s step-end infinite", color: "#CAFF00" }}>_</span>
-          </p>
-        </div>
-
-        <div className="max-w-sm">
-          <p className="body-lg" style={{ color: "var(--text-dim)", lineHeight: 1.75 }}>
-            CS undergraduate. Building high-performance web apps,
+        <div
+          ref={cardRef}
+          className="rounded-3xl"
+          style={{
+            background: "rgba(255,255,255,0.03)",
+            border: "1px solid var(--border-xs)",
+            backdropFilter: "blur(8px)",
+            boxShadow: "0 30px 80px -30px rgba(0,0,0,0.6)",
+            padding: "clamp(24px,3vw,40px)",
+            maxWidth: 460,
+          }}
+        >
+          <h3
+            className="text-offwhite"
+            style={{ fontSize: "clamp(18px,2.1vw,24px)", fontWeight: 700, lineHeight: 1.3, marginBottom: 6 }}
+          >
+            Hello! I'm Aditya —<br />a full-stack developer and problem solver.
+          </h3>
+          <p className="body-lg" style={{ color: "var(--text-dim)", lineHeight: 1.7, fontSize: 14, marginBottom: 22 }}>
+            CS undergraduate building high-performance web apps,
             backend systems, and AI-powered tools that solve real problems.
           </p>
+
+          <ul className="flex flex-col gap-1">
+            {ROLES.map((role) => (
+              <li
+                key={role}
+                className="role-item flex items-center gap-3"
+                style={{
+                  padding: "10px 4px",
+                  borderBottom: "1px solid var(--border-xs)",
+                  fontSize: "clamp(15px,1.5vw,18px)",
+                  fontWeight: 500,
+                  color: "var(--text-offwhite, #fff)",
+                  transition: "color 0.3s ease, transform 0.3s ease",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = "#CAFF00"; e.currentTarget.style.transform = "translateX(4px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.color = "var(--text-offwhite, #fff)"; e.currentTarget.style.transform = "translateX(0)"; }}
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" style={{ flexShrink: 0 }}>
+                  <line x1="7" y1="1" x2="7" y2="13" stroke="#CAFF00" strokeWidth="1.5" />
+                  <line x1="1" y1="7" x2="13" y2="7" stroke="#CAFF00" strokeWidth="1.5" />
+                </svg>
+                {role}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <div ref={socialsRef} className="flex flex-col gap-4 shrink-0">
-          {[
-            { label: "GitHub ↗",   href: "https://github.com/Aditya00-git" },
-            { label: "LinkedIn ↗", href: "https://tinyurl.com/35u8nepx" },
-            { label: "Resume ↓",   href: `${import.meta.env.BASE_URL}Adiinew.pdf`, download: "Aditya_Seswani_Resume.pdf" },
-          ].map((s) => (
-            <MagneticBtn key={s.label} strength={0.4}>
-              <a
-                href={s.href}
-                target={s.download ? "_self" : "_blank"}
-                rel={s.download ? undefined : "noreferrer"}
-                download={s.download || undefined}
-                className="label block px-4 py-2 rounded-full transition-all duration-300"
+        <div ref={statsWrapRef} className="flex flex-col gap-4 shrink-0 w-full md:w-[260px]">
+          {STATS.map((stat, i) => (
+            <div
+              key={stat.label}
+              ref={el => (statsRef.current[i] = el)}
+              className="rounded-2xl"
+              style={
+                stat.highlight
+                  ? {
+                      background: "#CAFF00",
+                      padding: "20px 22px",
+                    }
+                  : {
+                      background: "rgba(255,255,255,0.03)",
+                      border: "1px solid var(--border-xs)",
+                      backdropFilter: "blur(8px)",
+                      padding: "20px 22px",
+                    }
+              }
+            >
+              {stat.avatars && (
+                <div className="flex items-center" style={{ marginBottom: 10 }}>
+                  {[0, 1, 2, 3].map((n) => (
+                    <div
+                      key={n}
+                      className="rounded-full flex items-center justify-center"
+                      style={{
+                        width: 30,
+                        height: 30,
+                        marginLeft: n === 0 ? 0 : -10,
+                        border: "2px solid var(--bg, #0a0a0a)",
+                        background: `linear-gradient(135deg, #CAFF00, #6b8f00)`,
+                        color: "#0a0a0a",
+                        fontSize: 11,
+                        fontWeight: 700,
+                        zIndex: 4 - n,
+                      }}
+                    >
+                      {["A", "S", "R", "K"][n]}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <h4
+                ref={el => (counterRefs.current[i] = el)}
                 style={{
-                  color: "var(--text-dim)",
-                  border: "1px solid var(--border-xs)",
-                  background: "rgba(0,0,0,0.02)",
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.color = "#CAFF00";
-                  e.currentTarget.style.borderColor = "rgba(202,255,0,0.35)";
-                  e.currentTarget.style.background = "rgba(202,255,0,0.06)";
-                  e.currentTarget.style.letterSpacing = "0.28em";
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.color = "var(--text-dim)";
-                  e.currentTarget.style.borderColor = "var(--border-xs)";
-                  e.currentTarget.style.background = "rgba(0,0,0,0.02)";
-                  e.currentTarget.style.letterSpacing = "0.2em";
+                  fontSize: "clamp(28px,3vw,34px)",
+                  fontWeight: 700,
+                  lineHeight: 1,
+                  marginBottom: 6,
+                  color: stat.highlight ? "#0a0a0a" : "var(--text-offwhite, #fff)",
                 }}
               >
-                {s.label}
-              </a>
-            </MagneticBtn>
+                0{stat.suffix}
+              </h4>
+              <p
+                style={{
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: stat.highlight ? "rgba(10,10,10,0.75)" : "var(--text-dim)",
+                }}
+              >
+                {stat.label}
+              </p>
+            </div>
           ))}
         </div>
       </div>
@@ -227,7 +323,6 @@ const Hero = () => {
       </div>
 
       <style>{`
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
         @keyframes hpulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.5)} }
         @keyframes scrollDrop {
           0%   { transform: translateY(-100%); opacity: 0; }

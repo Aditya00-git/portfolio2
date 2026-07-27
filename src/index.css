@@ -196,20 +196,15 @@ body::after {
   .fixed-bg-text { font-size: 130px; }
 }
 
-#page-cover {
-  position: fixed; inset: 0;
-  background: var(--charcoal);
-  z-index: 999999; transform-origin: bottom;
-}
-
 /* ─── LIGHT THEME: SECTION BACKGROUNDS ──────────────────────────────── */
 [data-theme="light"] #about       { background: var(--surface) !important; }
 [data-theme="light"] #projects    { background: var(--charcoal) !important; }
 [data-theme="light"] #experience  { background: var(--surface) !important; }
 [data-theme="light"] #contact     { background: var(--charcoal) !important; }
 
-/* Nav panel overlay */
-[data-theme="light"] .fixed.inset-0 { background: var(--nav-bg) !important; }
+/* NOTE: nav panel curtains now carry their own background via inline
+   style (var(--charcoal) / #171717) inside Navbar.jsx, so no extra
+   light-theme override is needed for the outer wrapper here. */
 
 /* Hero: outline last name stroke color */
 [data-theme="light"] h1[style*="WebkitTextStroke"] {
@@ -331,6 +326,13 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+.cert-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 @media (max-width: 900px) {
@@ -373,4 +375,56 @@ body::after {
 
 @media (max-width: 768px) {
   body { cursor: auto; }
+}
+
+/* ── Navbar: "Download CV" button ─────────────────────────────────────
+   Same trick as Shan's .tw-hover-btn — a dot pinned to the bottom-center
+   grows into a full-bleed circle on hover, sliding the accent fill in
+   instead of just swapping a background color. */
+.cv-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  z-index: 1;
+}
+.cv-btn-dot {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 60%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: var(--lime);
+  transition: width 0.55s cubic-bezier(0.65, 0, 0.35, 1), height 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: -1;
+  pointer-events: none;
+}
+.cv-btn:hover .cv-btn-dot { width: 240px; height: 240px; }
+.cv-btn-label { transition: color 0.35s ease; }
+.cv-btn:hover .cv-btn-label { color: #0D0D0D; }
+
+/* ── Navbar: social icon buttons (centered row) ───────────────────────
+   Idle: outlined circle matching the site's card/border tokens.
+   Hover: fills with the accent, icon flips to dark — same beat as
+   Shan's .header-three-social hover, in our palette. */
+.nav-social-btn {
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+.nav-social-btn:hover {
+  background: var(--lime) !important;
+  border-color: var(--lime) !important;
+  transform: translateY(-2px);
+}
+.nav-social-btn:hover svg { color: #0D0D0D !important; }
+
+/* ── Navbar: menu toggle button ────────────────────────────────────────
+   Fills with the accent on hover (not just while open), same as
+   Shan's .header-three-menu button:hover behavior. */
+.menu-toggle-btn:hover:not([data-open="true"]) {
+  background: var(--lime) !important;
+  border-color: var(--lime) !important;
+}
+.menu-toggle-btn:hover:not([data-open="true"]) span {
+  background: #0D0D0D !important;
 }
