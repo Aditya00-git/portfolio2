@@ -22,7 +22,7 @@ const experience = [..._experience, edulinkup];
 
 // ─── Gradient palette for the oval cert badges (cycled by index) ────────────
 const certGradients = [
-  "linear-gradient(135deg, #CAFF00 0%, #5C7A00 100%)",
+  "linear-gradient(135deg, var(--lime) 0%, #5C7A00 100%)",
   "linear-gradient(135deg, #FF7A45 0%, #FFC299 100%)",
   "linear-gradient(135deg, #4B7BEC 0%, #A6C8FF 100%)",
   "linear-gradient(135deg, #F0EDE6 0%, #B8B4AA 100%)",
@@ -66,7 +66,7 @@ const CardContent = ({ exp }) => (
         >
           {exp.role}
         </h3>
-        <p className="label mt-1" style={{ color: "#CAFF00", letterSpacing: "0.14em" }}>
+        <p className="label mt-1" style={{ color: "var(--lime)", letterSpacing: "0.14em" }}>
           {exp.company}
         </p>
       </div>
@@ -75,19 +75,19 @@ const CardContent = ({ exp }) => (
         style={{
           background:
             exp.status === "CURRENT"
-              ? "rgba(202,255,0,0.1)"
+              ? "rgba(var(--lime-rgb), 0.1)"
               : exp.status === "UPCOMING"
               ? "rgba(99,179,237,0.10)"
               : "var(--border-sm)",
           color:
             exp.status === "CURRENT"
-              ? "#CAFF00"
+              ? "var(--lime)"
               : exp.status === "UPCOMING"
               ? "#63B3ED"
               : "var(--muted)",
           border: `1px solid ${
             exp.status === "CURRENT"
-              ? "rgba(202,255,0,0.3)"
+              ? "rgba(var(--lime-rgb), 0.3)"
               : exp.status === "UPCOMING"
               ? "rgba(99,179,237,0.3)"
               : "var(--border-xs)"
@@ -123,44 +123,9 @@ export default function Experience() {
   const cardRefs    = useRef([]);
   const connRefs    = useRef([]);
   const achRefs     = useRef([]);
-  const achIconRefs = useRef([]);
-  const achQuick    = useRef([]);
   const certRefs    = useRef([]);
   const achHeadRef  = useRef(null);
   const certHeadRef = useRef(null);
-
-  // ── Magnetic tilt + cursor-spotlight for achievement cards ──────────────
-  const handleAchMove = (e, i) => {
-    const el = achRefs.current[i];
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const px = e.clientX - r.left;
-    const py = e.clientY - r.top;
-    const cx = px / r.width - 0.5;
-    const cy = py / r.height - 0.5;
-
-    if (!achQuick.current[i]) {
-      achQuick.current[i] = {
-        rx: gsap.quickTo(el, "rotateX", { duration: 0.5, ease: "power3.out" }),
-        ry: gsap.quickTo(el, "rotateY", { duration: 0.5, ease: "power3.out" }),
-        ty: gsap.quickTo(el, "y", { duration: 0.5, ease: "power3.out" }),
-      };
-    }
-    achQuick.current[i].rx(cy * -10);
-    achQuick.current[i].ry(cx * 14);
-    achQuick.current[i].ty(-6);
-
-    el.style.setProperty("--mx", `${px}px`);
-    el.style.setProperty("--my", `${py}px`);
-    el.style.setProperty("--spot", "1");
-  };
-
-  const handleAchLeave = (i) => {
-    const el = achRefs.current[i];
-    if (!el) return;
-    gsap.to(el, { rotateX: 0, rotateY: 0, y: 0, duration: 0.6, ease: "elastic.out(1,0.5)" });
-    el.style.setProperty("--spot", "0");
-  };
 
   useLayoutEffect(() => {
     const n          = experience.length;
@@ -212,26 +177,13 @@ export default function Experience() {
         );
       });
 
-      gsap.set(achRefs.current.filter(Boolean), { transformPerspective: 800, transformStyle: "preserve-3d" });
-
       achRefs.current.filter(Boolean).forEach((el, i) => {
-        const icon = achIconRefs.current[i];
-
         gsap.fromTo(
           el,
-          { y: 60, rotateX: -35, scale: 0.82, autoAlpha: 0 },
+          { y: 40, opacity: 0 },
           {
-            y: 0, rotateX: 0, scale: 1, autoAlpha: 1,
-            duration: 0.85, delay: i * 0.09, ease: "back.out(1.6)",
+            y: 0, opacity: 1, duration: 0.6, delay: i * 0.07, ease: "power3.out",
             scrollTrigger: { trigger: el, start: "top 92%", toggleActions: "play none none none" },
-            onStart: () => {
-              if (!icon) return;
-              gsap.fromTo(
-                icon,
-                { scale: 0, rotate: -180, autoAlpha: 0 },
-                { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.9, delay: i * 0.09 + 0.15, ease: "elastic.out(1,0.55)" }
-              );
-            },
           }
         );
       });
@@ -277,7 +229,7 @@ export default function Experience() {
 
   return (
     <section id="experience" ref={sectionRef} style={{ background: "var(--surface)" }}>
-      <GradientOrb x="80%" y="20%" size={500} color="#CAFF00" opacity={0.03} />
+      <GradientOrb x="80%" y="20%" size={500} color="var(--lime)" opacity={0.03} />
 
       <div className="px-8 md:px-16 pt-24 pb-0">
         <div className="flex items-center gap-4 mb-4">
@@ -331,7 +283,7 @@ export default function Experience() {
                 e.currentTarget.style.borderColor =
                   exp.status === "UPCOMING"
                     ? "rgba(99,179,237,0.35)"
-                    : "rgba(202,255,0,0.28)";
+                    : "rgba(var(--lime-rgb), 0.28)";
                 e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.5)";
               }}
               onMouseLeave={(e) => {
@@ -346,7 +298,7 @@ export default function Experience() {
                   background:
                     exp.status === "UPCOMING"
                       ? "linear-gradient(225deg,rgba(99,179,237,0.10),transparent 60%)"
-                      : "linear-gradient(225deg,rgba(202,255,0,0.08),transparent 60%)",
+                      : "linear-gradient(225deg,rgba(var(--lime-rgb), 0.08),transparent 60%)",
                 }}
               />
               <CardContent exp={exp} />
@@ -373,7 +325,7 @@ export default function Experience() {
                   background:
                     exp.status === "UPCOMING"
                       ? "linear-gradient(to bottom, rgba(99,179,237,0.4), #63B3ED)"
-                      : "linear-gradient(to bottom, rgba(202,255,0,0.4), #CAFF00)",
+                      : "linear-gradient(to bottom, rgba(var(--lime-rgb), 0.4), var(--lime))",
                   transformOrigin: "bottom center",
                 }}
               />
@@ -395,8 +347,8 @@ export default function Experience() {
             style={{
               position: "absolute", top: "50%", left: 0, right: 0,
               height: 1,
-              background: "linear-gradient(to right, #CAFF00, rgba(202,255,0,0.4))",
-              boxShadow: "0 0 8px rgba(202,255,0,0.6)",
+              background: "linear-gradient(to right, var(--lime), rgba(var(--lime-rgb), 0.4))",
+              boxShadow: "0 0 8px rgba(var(--lime-rgb), 0.6)",
               transformOrigin: "left center",
               transform: "translateY(-50%) scaleX(0)",
             }}
@@ -425,7 +377,7 @@ export default function Experience() {
                       position: "absolute", width: 20, height: 20, borderRadius: "50%",
                       border: `1px solid ${
                         exp.status === "CURRENT"
-                          ? "rgba(202,255,0,0.4)"
+                          ? "rgba(var(--lime-rgb), 0.4)"
                           : exp.status === "UPCOMING"
                           ? "rgba(99,179,237,0.4)"
                           : "var(--text-dim)"
@@ -443,13 +395,13 @@ export default function Experience() {
                       position: "relative", zIndex: 1,
                       background:
                         exp.status === "CURRENT"
-                          ? "#CAFF00"
+                          ? "var(--lime)"
                           : exp.status === "UPCOMING"
                           ? "#63B3ED"
                           : "var(--text-dim)",
                       boxShadow:
                         exp.status === "CURRENT"
-                          ? "0 0 12px rgba(202,255,0,1)"
+                          ? "0 0 12px rgba(var(--lime-rgb), 1)"
                           : exp.status === "UPCOMING"
                           ? "0 0 12px rgba(99,179,237,0.9)"
                           : "none",
@@ -492,57 +444,6 @@ export default function Experience() {
           0%,100% { transform:scale(1);   opacity:0.4; }
           50%      { transform:scale(2.4); opacity:0;   }
         }
-
-        .ach-card {
-          --mx: 50%;
-          --my: 50%;
-          --spot: 0;
-          will-change: transform;
-          transition: border-color 0.35s ease, box-shadow 0.35s ease;
-        }
-        .ach-card:hover {
-          border-color: rgba(202,255,0,0.35);
-          box-shadow: 0 24px 60px rgba(0,0,0,0.55);
-        }
-
-        .ach-spotlight {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          opacity: var(--spot);
-          transition: opacity 0.35s ease;
-          background: radial-gradient(220px circle at var(--mx) var(--my), rgba(202,255,0,0.14), transparent 70%);
-        }
-
-        .ach-shine {
-          position: absolute;
-          top: 0; left: -60%;
-          width: 40%; height: 100%;
-          pointer-events: none;
-          background: linear-gradient(115deg, transparent, rgba(255,255,255,0.10), transparent);
-          transform: skewX(-20deg);
-          transition: left 0.7s ease;
-        }
-        .ach-card:hover .ach-shine {
-          left: 130%;
-        }
-
-        .ach-icon-wrap {
-          position: relative;
-          width: 32px;
-          height: 32px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 12px;
-        }
-        .ach-ring {
-          position: absolute;
-          inset: 0;
-          border-radius: 999px;
-          border: 1px solid rgba(202,255,0,0.5);
-          animation: ringPulse 2.4s ease-in-out infinite;
-        }
       `}</style>
 
       {/* ── Achievements ── */}
@@ -559,24 +460,12 @@ export default function Experience() {
             <div
               key={i}
               ref={(el) => (achRefs.current[i] = el)}
-              className="ach-card p-6 rounded-xl relative overflow-hidden"
-              style={{ background:"var(--card-bg)",border:"1px solid var(--border-xs)" }}
-              onMouseMove={(e) => handleAchMove(e, i)}
-              onMouseLeave={() => handleAchLeave(i)}
+              className="p-6 rounded-xl"
+              style={{ background:"var(--card-bg)",border:"1px solid var(--border-xs)",transition:"border-color 0.3s,transform 0.3s,box-shadow 0.3s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor="rgba(202,255,0,0.3)";e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow="0 20px 60px rgba(0,0,0,0.5)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor="var(--border-xs)";e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none"; }}
             >
-              <span className="ach-spotlight" />
-              <span className="ach-shine" />
-
-              <div className="ach-icon-wrap">
-                <span className="ach-ring" />
-                <span
-                  ref={(el) => (achIconRefs.current[i] = el)}
-                  style={{ fontSize:20,color:"#CAFF00",display:"inline-block" }}
-                >
-                  {a.icon}
-                </span>
-              </div>
-
+              <span style={{ fontSize:20,color:"#CAFF00",display:"block",marginBottom:12 }}>{a.icon}</span>
               <h4 className="text-offwhite uppercase mb-2" style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:"clamp(17px,2vw,22px)",letterSpacing:"0.04em" }}>{a.title}</h4>
               <p style={{ fontFamily:"'DM Sans',sans-serif",fontSize:12,letterSpacing:"0.12em",textTransform:"uppercase",color:"var(--muted)" }}>{a.sub}</p>
             </div>

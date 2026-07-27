@@ -98,7 +98,7 @@ const Projects = () => {
       className="py-24 px-8 md:px-16"
       style={{ background: "var(--charcoal)", overflow: "hidden", position: "relative" }}
     >
-      <GradientOrb x="85%" y="40%" size={500} color="#CAFF00" opacity={0.03} />
+      <GradientOrb x="85%" y="40%" size={500} color="var(--lime)" opacity={0.03} />
 
       {/* Pinned background watermark — stays put while the list scrolls over it */}
       <h3
@@ -188,7 +188,7 @@ const Projects = () => {
               <span
                 className="text-xl transition-all duration-300"
                 style={{ color: "var(--text-dim)" }}
-                onMouseEnter={e => { e.target.style.color = "#CAFF00"; e.target.style.transform = "translate(3px,-3px)"; }}
+                onMouseEnter={e => { e.target.style.color = "var(--lime)"; e.target.style.transform = "translate(3px,-3px)"; }}
                 onMouseLeave={e => { e.target.style.color = "var(--text-dim)"; e.target.style.transform = "translate(0,0)"; }}
               >↗</span>
             </div>
@@ -206,7 +206,7 @@ const Projects = () => {
             opacity: 0,
             scale: 0.92,
             background: "var(--card-bg)",
-            border: "1px solid rgba(202,255,0,0.12)",
+            border: "1px solid rgba(var(--lime-rgb), 0.12)",
             padding: 0,
           }}
         >
@@ -237,7 +237,7 @@ const Projects = () => {
           <span
             className="label transition-all duration-300"
             style={{ color: "var(--text-dim)" }}
-            onMouseEnter={e => e.target.style.color = "#CAFF00"}
+            onMouseEnter={e => e.target.style.color = "var(--lime)"}
             onMouseLeave={e => e.target.style.color = "var(--text-dim)"}
           >
             View all on GitHub ↗

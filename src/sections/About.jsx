@@ -24,9 +24,9 @@ Focused on performance, clean architecture,
 and software that solves real problems.`;
 
   const stats = [
-    { n: 5,    suffix: "+",  label: "Projects Shipped" },
-    { n: 2,    suffix: "×",  label: "Internships" },
-    { n: 6,    suffix: "+",  label: "Certifications" },
+    { n: 10,    suffix: "+",  label: "Projects Shipped" },
+    { n: 3,    suffix: "×",  label: "Internships" },
+    { n: 7,    suffix: "+",  label: "Certifications" },
     { n: 1000, suffix: "+",  label: "Hours Coded" },
   ];
 
@@ -138,7 +138,7 @@ and software that solves real problems.`;
       className="relative py-24 px-8 md:px-16 overflow-hidden"
       style={{ background: "var(--surface)", borderRadius: "0 0 48px 48px" }}
     >
-      <GradientOrb x="90%" y="20%" size={600} color="#CAFF00" opacity={0.03} />
+      <GradientOrb x="90%" y="20%" size={600} color="var(--lime)" opacity={0.03} />
 
       <div className="flex items-center gap-4 mb-4">
         <span className="index-num">02</span>
@@ -167,7 +167,7 @@ and software that solves real problems.`;
             >
               <img src={`${import.meta.env.BASE_URL}images/git1.jpg`} className="w-full h-full object-cover" />
             </div>
-            <div className="absolute bottom-0 left-0 w-24 h-24" style={{ background: "linear-gradient(135deg,#CAFF00,transparent 60%)", opacity: 0.12 }} />
+            <div className="absolute bottom-0 left-0 w-24 h-24" style={{ background: "linear-gradient(135deg,var(--lime),transparent 60%)", opacity: 0.12 }} />
           </div>
 
           <div className="grid grid-cols-2 gap-3 mt-4">
@@ -180,7 +180,7 @@ and software that solves real problems.`;
               >
                 <p
                   ref={el => (counterRefs.current[i] = el)}
-                  style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 46, color: "#CAFF00", lineHeight: 1 }}
+                  style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 46, color: "var(--lime)", lineHeight: 1 }}
                 >
                   0{s.suffix}
                 </p>
@@ -238,7 +238,7 @@ and software that solves real problems.`;
                     color: "var(--offwhite)", cursor: "default",
                     transition: "all 0.25s",
                   }}
-                  onMouseEnter={e => { e.target.style.background = "rgba(202,255,0,0.09)"; e.target.style.borderColor = "rgba(202,255,0,0.35)"; e.target.style.color = "#CAFF00"; e.target.style.transform = "translateY(-2px)"; }}
+                  onMouseEnter={e => { e.target.style.background = "rgba(var(--lime-rgb), 0.09)"; e.target.style.borderColor = "rgba(var(--lime-rgb), 0.35)"; e.target.style.color = "var(--lime)"; e.target.style.transform = "translateY(-2px)"; }}
                   onMouseLeave={e => { e.target.style.background = "var(--card-bg)"; e.target.style.borderColor = "var(--border)"; e.target.style.color = "var(--offwhite)"; e.target.style.transform = "translateY(0)"; }}
                 >
                   {s}

@@ -85,8 +85,8 @@ const ContactForm = () => {
         <div
           style={{
             width: 56, height: 56, borderRadius: "50%",
-            background: "rgba(202,255,0,0.1)",
-            border: "1px solid rgba(202,255,0,0.4)",
+            background: "rgba(var(--lime-rgb), 0.1)",
+            border: "1px solid rgba(var(--lime-rgb), 0.4)",
             display: "flex", alignItems: "center", justifyContent: "center",
             fontSize: 26,
           }}
@@ -298,7 +298,7 @@ const Contact = () => {
               <div
                 ref={dotRef}
                 className="w-3 h-3 rounded-full"
-                style={{ background: "var(--lime)", boxShadow: "0 0 12px rgba(202,255,0,0.6)" }}
+                style={{ background: "var(--lime)", boxShadow: "0 0 12px rgba(var(--lime-rgb), 0.6)" }}
               />
               <span className="label text-muted">Currently accepting projects</span>
             </div>

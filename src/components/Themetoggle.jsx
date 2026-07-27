@@ -67,7 +67,7 @@ const Themetoggle = () => {
       }}
       data-cursor
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = "rgba(202,255,0,0.45)";
+        e.currentTarget.style.borderColor = "rgba(var(--lime-rgb), 0.45)";
       }}
       onMouseLeave={e => {
         e.currentTarget.style.borderColor = "rgba(240,237,230,0.12)";
@@ -82,8 +82,8 @@ const Themetoggle = () => {
           width: 20,
           height: 20,
           left: 4,
-          background: "#CAFF00",
-          boxShadow: "0 0 8px rgba(202,255,0,0.5)",
+          background: "var(--lime)",
+          boxShadow: "0 0 8px rgba(var(--lime-rgb), 0.5)",
           willChange: "transform",
         }}
       >
