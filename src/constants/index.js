@@ -75,7 +75,7 @@ export const achievements = [
   { icon: "◈", title: "Smart India Hackathon", sub: "Participant + Health Hackathon Finalist" },
   { icon: "◈", title: "RoboKwik", sub: "Multi-domain Internship Offer — Python, AI/ML, Web" },
   { icon: "◈", title: "EI Systems Technology", sub: "Selected via AICTE National Internship Portal" },
-  { icon: "◈", title: "Redynox", sub: "Web Development Internship Offer" },
+  { icon: "◈", title: "Adobe University Hackathon", sub: "Top 26,000 out of 3,00,000+ Teams" },
 ];
 
 export const certifications = [
