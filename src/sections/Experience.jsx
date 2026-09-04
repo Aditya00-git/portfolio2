@@ -2,8 +2,8 @@ import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { experience as _experience, achievements, certifications } from "../constants";
+import TextScramble from "../components/TextScramble";
 import GradientOrb from "../components/GradientOrb";
-import Marquee from "../components/Marquee";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,37 +20,6 @@ const edulinkup = {
 const experience = [..._experience, edulinkup];
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ─── Gradient palette for the oval cert badges (cycled by index) ────────────
-const certGradients = [
-  "linear-gradient(135deg, var(--lime) 0%, #5C7A00 100%)",
-  "linear-gradient(135deg, #FF7A45 0%, #FFC299 100%)",
-  "linear-gradient(135deg, #4B7BEC 0%, #A6C8FF 100%)",
-  "linear-gradient(135deg, #F0EDE6 0%, #B8B4AA 100%)",
-  "linear-gradient(135deg, #FFD23D 0%, #FF9F1C 100%)",
-  "linear-gradient(135deg, #B084F0 0%, #E6CCFF 100%)",
-];
-
-const CertSeal = () => (
-  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{ opacity: 0.85 }}>
-    <path
-      d="M12 2l2.39 4.84 5.34.78-3.86 3.76.91 5.32L12 14.27l-4.78 2.43.91-5.32-3.86-3.76 5.34-.78L12 2z"
-      fill="rgba(0,0,0,0.55)"
-    />
-    <circle cx="12" cy="10.5" r="9" stroke="rgba(0,0,0,0.55)" strokeWidth="1.2" fill="none" />
-  </svg>
-);
-
-// ─── "Certifications –" ticker items — alternating solid / stroke-outline,
-//     same layout Shan uses right before his Services section ─────────────
-const certMarqueeItems = Array.from({ length: 6 }).map((_, i) => (
-  <span
-    key={i}
-    className={`marquee-big-title ${i % 2 === 1 ? "text-stroke" : ""}`}
-  >
-    Certifications <span className="marquee-dash">–</span>
-  </span>
-));
-
 const CardContent = ({ exp }) => (
   <>
     <div className="flex items-start justify-between gap-2 mb-3">
@@ -66,7 +35,7 @@ const CardContent = ({ exp }) => (
         >
           {exp.role}
         </h3>
-        <p className="label mt-1" style={{ color: "var(--lime)", letterSpacing: "0.14em" }}>
+        <p className="label mt-1" style={{ color: "#CAFF00", letterSpacing: "0.14em" }}>
           {exp.company}
         </p>
       </div>
@@ -75,19 +44,19 @@ const CardContent = ({ exp }) => (
         style={{
           background:
             exp.status === "CURRENT"
-              ? "rgba(var(--lime-rgb), 0.1)"
+              ? "rgba(202,255,0,0.1)"
               : exp.status === "UPCOMING"
               ? "rgba(99,179,237,0.10)"
               : "var(--border-sm)",
           color:
             exp.status === "CURRENT"
-              ? "var(--lime)"
+              ? "#CAFF00"
               : exp.status === "UPCOMING"
               ? "#63B3ED"
               : "var(--muted)",
           border: `1px solid ${
             exp.status === "CURRENT"
-              ? "rgba(var(--lime-rgb), 0.3)"
+              ? "rgba(202,255,0,0.3)"
               : exp.status === "UPCOMING"
               ? "rgba(99,179,237,0.3)"
               : "var(--border-xs)"
@@ -229,7 +198,7 @@ export default function Experience() {
 
   return (
     <section id="experience" ref={sectionRef} style={{ background: "var(--surface)" }}>
-      <GradientOrb x="80%" y="20%" size={500} color="var(--lime)" opacity={0.03} />
+      <GradientOrb x="80%" y="20%" size={500} color="#CAFF00" opacity={0.03} />
 
       <div className="px-8 md:px-16 pt-24 pb-0">
         <div className="flex items-center gap-4 mb-4">
@@ -238,12 +207,13 @@ export default function Experience() {
           <span className="label text-muted">Journey</span>
         </div>
         <div style={{ overflow: "hidden" }}>
-          <h2
+          <TextScramble
+            text="Experience"
+            tag="h2"
             className="display-lg text-offwhite uppercase"
             style={{ display: "block" }}
-          >
-            Experience
-          </h2>
+            scrambleOnMount
+          />
         </div>
       </div>
 
@@ -283,7 +253,7 @@ export default function Experience() {
                 e.currentTarget.style.borderColor =
                   exp.status === "UPCOMING"
                     ? "rgba(99,179,237,0.35)"
-                    : "rgba(var(--lime-rgb), 0.28)";
+                    : "rgba(202,255,0,0.28)";
                 e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.5)";
               }}
               onMouseLeave={(e) => {
@@ -298,7 +268,7 @@ export default function Experience() {
                   background:
                     exp.status === "UPCOMING"
                       ? "linear-gradient(225deg,rgba(99,179,237,0.10),transparent 60%)"
-                      : "linear-gradient(225deg,rgba(var(--lime-rgb), 0.08),transparent 60%)",
+                      : "linear-gradient(225deg,rgba(202,255,0,0.08),transparent 60%)",
                 }}
               />
               <CardContent exp={exp} />
@@ -325,7 +295,7 @@ export default function Experience() {
                   background:
                     exp.status === "UPCOMING"
                       ? "linear-gradient(to bottom, rgba(99,179,237,0.4), #63B3ED)"
-                      : "linear-gradient(to bottom, rgba(var(--lime-rgb), 0.4), var(--lime))",
+                      : "linear-gradient(to bottom, rgba(202,255,0,0.4), #CAFF00)",
                   transformOrigin: "bottom center",
                 }}
               />
@@ -347,8 +317,8 @@ export default function Experience() {
             style={{
               position: "absolute", top: "50%", left: 0, right: 0,
               height: 1,
-              background: "linear-gradient(to right, var(--lime), rgba(var(--lime-rgb), 0.4))",
-              boxShadow: "0 0 8px rgba(var(--lime-rgb), 0.6)",
+              background: "linear-gradient(to right, #CAFF00, rgba(202,255,0,0.4))",
+              boxShadow: "0 0 8px rgba(202,255,0,0.6)",
               transformOrigin: "left center",
               transform: "translateY(-50%) scaleX(0)",
             }}
@@ -377,7 +347,7 @@ export default function Experience() {
                       position: "absolute", width: 20, height: 20, borderRadius: "50%",
                       border: `1px solid ${
                         exp.status === "CURRENT"
-                          ? "rgba(var(--lime-rgb), 0.4)"
+                          ? "rgba(202,255,0,0.4)"
                           : exp.status === "UPCOMING"
                           ? "rgba(99,179,237,0.4)"
                           : "var(--text-dim)"
@@ -395,13 +365,13 @@ export default function Experience() {
                       position: "relative", zIndex: 1,
                       background:
                         exp.status === "CURRENT"
-                          ? "var(--lime)"
+                          ? "#CAFF00"
                           : exp.status === "UPCOMING"
                           ? "#63B3ED"
                           : "var(--text-dim)",
                       boxShadow:
                         exp.status === "CURRENT"
-                          ? "0 0 12px rgba(var(--lime-rgb), 1)"
+                          ? "0 0 12px rgba(202,255,0,1)"
                           : exp.status === "UPCOMING"
                           ? "0 0 12px rgba(99,179,237,0.9)"
                           : "none",
@@ -474,14 +444,6 @@ export default function Experience() {
       </div>
 
       {/* ── Certifications ── */}
-      <Marquee
-        items={certMarqueeItems}
-        separator=""
-        pauseOnHover
-        speed={0.75}
-        reactToScroll={false}
-        className="py-6"
-      />
       <div className="px-8 md:px-16 pb-24">
         <div ref={certHeadRef} className="flex items-center gap-6 mb-12">
           <div className="h-rule rule flex-1" />
@@ -490,44 +452,73 @@ export default function Experience() {
           </h3>
           <div className="h-rule rule flex-1" />
         </div>
-        <div className="flex flex-col gap-8">
-          {certifications.map((c, i) => (
-            <div
-              key={i}
-              ref={(el) => (certRefs.current[i] = el)}
-              className="cert-card"
-            >
-              <div className="cert-card-left">
-                <span className="cert-num">
-                  0{i + 1}
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+        {certifications.map((c, i) => (
+          <div
+            key={i}
+            ref={(el) => (certRefs.current[i] = el)}
+            className="flex items-center justify-between py-5 border-t"
+            style={{ borderColor:"var(--border-xs)",transition:"padding-left 0.35s,background 0.3s" }}
+            onMouseEnter={(e) => { e.currentTarget.style.paddingLeft="20px";e.currentTarget.style.background="rgba(202,255,0,0.02)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.paddingLeft="0";e.currentTarget.style.background="transparent"; }}
+          >
+            <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+              <span className="index-num shrink-0" style={{ minWidth:28 }}>0{i+1}</span>
+
+              {/* ── Issuer logo (falls back to initials badge if image fails/is absent) ── */}
+              <div
+                className="shrink-0 flex items-center justify-center overflow-hidden rounded-lg"
+                style={{
+                  width: "clamp(34px,8vw,44px)",
+                  height: "clamp(34px,8vw,44px)",
+                  background: "var(--card-bg)",
+                  border: "1px solid var(--border-xs)",
+                }}
+              >
+                {c.domain ? (
+                  <img
+                    src={`https://logo.clearbit.com/${c.domain}?size=88`}
+                    alt={`${c.issuer} logo`}
+                    loading="lazy"
+                    className="w-full h-full object-contain p-1.5"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                      e.currentTarget.nextElementSibling.style.display = "flex";
+                    }}
+                  />
+                ) : null}
+                <span
+                  style={{
+                    display: c.domain ? "none" : "flex",
+                    width: "100%",
+                    height: "100%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: "'Bebas Neue',sans-serif",
+                    fontSize: 14,
+                    letterSpacing: "0.05em",
+                    color: "#CAFF00",
+                  }}
+                >
+                  {c.issuer.split(" ")[0].slice(0, 2).toUpperCase()}
                 </span>
-                <div>
-                  <h2 className="cert-big-title">{c.name}</h2>
-                  <div className="cert-tags">
-                    <span className="cert-tag">{c.issuer}</span>
-                    <span className="cert-tag">{c.year}</span>
-                    <span className="cert-tag">Certified</span>
-                  </div>
-                </div>
               </div>
 
-              <div className="cert-thumb" style={{ background: certGradients[i % certGradients.length] }}>
-                {c.image ? (
-                  <img
-                    src={c.image}
-                    alt={`${c.name} certificate`}
-                    className="cert-thumb-img"
-                  />
-                ) : (
-                  <CertSeal />
-                )}
+              <div className="min-w-0">
+                <p
+                  className="text-offwhite uppercase"
+                  style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:"clamp(18px,2.5vw,30px)",letterSpacing:"0.04em",lineHeight:1.1,transition:"color 0.25s" }}
+                  onMouseEnter={(e) => (e.target.style.color="#CAFF00")}
+                  onMouseLeave={(e) => (e.target.style.color="var(--offwhite)")}
+                >
+                  {c.name}
+                </p>
+                <p style={{ fontFamily:"'DM Sans',sans-serif",fontSize:11,letterSpacing:"0.14em",textTransform:"uppercase",color:"var(--muted)",marginTop:3 }}>{c.issuer}</p>
               </div>
             </div>
-          ))}
-        </div>
+            <span className="shrink-0 ml-3" style={{ fontFamily:"'DM Sans',sans-serif",fontSize:12,letterSpacing:"0.14em",color:"var(--muted)" }}>{c.year}</span>
+          </div>
+        ))}
+        <div className="rule mt-0" />
       </div>
     </section>
   );

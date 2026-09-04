@@ -79,13 +79,12 @@ export const achievements = [
 ];
 
 export const certifications = [
-  { name: "Oracle Gen AI", issuer: "Oracle", year: "2025", image: "public/images/GEN AI.png" },
-  { name: "Oracle Data Science", issuer: "Oracle", year: "2025", image: "public/images/DATA.png" },
-  { name: "Oracle AI Foundations", issuer: "Oracle", year: "2025", image: 'public/images/AI FOUND.png' },
-  { name: "NPTEL Cloud Computing", issuer: "NPTEL", year: "2025", image: "public/images/CLOUD.png" },
-  { name: "Google Bits & Bytes of Networking", issuer: "Coursera / Google", year: "2025", image: "public/images/bits.png" },
-  { name: "AI Fundamentals Badge", issuer: "IBM", year: "2026", image: "public/images/badge.png" },
-  { name: "NPTEL Marketing Analytics", issuer: "NPTEL", year: "2026", image: "public/images/marketing.png" },
+  { name: "Oracle Gen AI", issuer: "Oracle", year: "2025", domain: "oracle.com" },
+  { name: "Oracle Data Science", issuer: "Oracle", year: "2025", domain: "oracle.com" },
+  { name: "Oracle AI Foundations", issuer: "Oracle", year: "2025", domain: "oracle.com" },
+  { name: "NPTEL Cloud Computing", issuer: "NPTEL", year: "2025", domain: "nptel.ac.in" },
+  { name: "Google Bits & Bytes of Networking", issuer: "Coursera / Google", year: "2025", domain: "google.com" },
+  { name: "AI Fundamentals Badge", issuer: "IBM", year: "2026", domain: "ibm.com" },
 ];
 
 export const skills = [
@@ -95,10 +94,10 @@ export const skills = [
 ];
 
 export const socials = [
-  { name: "GitHub", href: "https://github.com/Aditya00-git", icon: "lucide:github" },
-  { name: "LinkedIn", href: "https://tinyurl.com/35u8nepx", icon: "lucide:linkedin" },
-  { name: "Twitter / X", href: "https://x.com/AdityaSeswani", icon: "lucide:twitter" },
-  { name: "Instagram", href: "https://tinyurl.com/hy78vev2", icon: "lucide:instagram" },
+  { name: "GitHub", href: "https://github.com/Aditya00-git" },
+  { name: "LinkedIn", href: "https://tinyurl.com/35u8nepx" },
+  { name: "Twitter / X", href: "https://x.com/AdityaSeswani" },
+  { name: "Instagram", href: "https://tinyurl.com/hy78vev2" },
 ];
 
 export const marqueeTech = [
